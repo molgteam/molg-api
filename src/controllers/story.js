@@ -1,7 +1,7 @@
-const { MolgManager, LoginError } = require('../core/molg-manager');
-const UserService = require('../services/UserService');
-const DBService = require('../services/DBService');
-const { compareDateMin, dayjs } = require('../services/utilities');
+const { MolgManager, LoginError } = require("../core/molg-manager");
+const UserService = require("../services/UserService");
+const DBService = require("../services/DBService");
+const { compareDateMin, dayjs } = require("../services/utilities");
 
 exports.index = async function (req, res, next) {
   try {
@@ -9,7 +9,7 @@ exports.index = async function (req, res, next) {
     const prevUser = await DBService.fetchUserinfo(targetUser);
 
     if (
-      typeof prevUser === 'undefined' ||
+      typeof prevUser === "undefined" ||
       compareDateMin(prevUser.updatedAt) < -10
     ) {
       const worker = await DBService.fetchWorkerByRandom();
@@ -23,28 +23,10 @@ exports.index = async function (req, res, next) {
       await DBService.createStorySnapshot(storyInfo.stories, dbUserInfo);
       const storySnapshot = await DBService.fetchStorySnapshot(dbUserInfo);
 
-      res.render('UserStory', {
-        name: dbUserInfo.name,
-        pk: dbUserInfo.pk,
-        isPrivate: dbUserInfo.isPrivate,
-        isVerified: dbUserInfo.isVerified,
-        picUrl: dbUserInfo.picUrl,
-        updatedAt: dbUserInfo.updatedAt,
-        stories: storySnapshot,
-        dayjs,
-      });
+      res.json({ userData: dbUserInfo, storyData: storySnapshot });
     } else {
       const storySnapshot = await DBService.fetchStorySnapshot(prevUser);
-      res.render('UserStory', {
-        name: prevUser.name,
-        pk: prevUser.pk,
-        isPrivate: prevUser.isPrivate,
-        isVerified: prevUser.isVerified,
-        picUrl: prevUser.picUrl,
-        updatedAt: prevUser.updatedAt,
-        stories: storySnapshot,
-        dayjs,
-      });
+      res.json({ userData: prevUser, storyData: storySnapshot });
     }
   } catch (err) {
     if (err instanceof LoginError) {
@@ -52,7 +34,7 @@ exports.index = async function (req, res, next) {
       await DBService.updateWorker(err.username, 0);
     }
 
-    console.log('err %o', err);
+    console.log("err %o", err);
     next(err);
   }
 };
