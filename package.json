@@ -59,7 +59,7 @@
     "build-test": "rm -rf dist && webpack --mode production --config webpack.server.config.js && webpack --mode production --config webpack.config.js",
     "build": "rm -rf dist && webpack --mode production --config webpack.config.production.js",
     "start-test": "node ./dist/server.js",
-    "start": "NODE_ENV=development nodemon --inspect -e js,ejs --ignore './src/public' ./src/bin/www",
+    "start": "nodemon ./src/bin/www",
     "product-start": "nodemon -e js,ejs --ignore './src/public' ./src/bin/www",
     "test": "jest"
   }

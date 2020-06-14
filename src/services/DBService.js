@@ -80,7 +80,7 @@ const createStorySnapshot = async (stories, user) => {
         imageUrl: story.image_versions2[0].url || "",
         videoUrl: story.has_video ? story.video_versions[0].url : "",
         takenAt: story.taken_at,
-        expireAt: story.expiring_at,1
+        expireAt: story.expiring_at,
       }))
     );
   } catch (e) {
