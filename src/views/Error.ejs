@@ -1,0 +1,25 @@
+<% include ../views/common/header.ejs %>
+
+<div class="splash-container" id="splash">
+  <div class="splash">
+    <h3 style="color: black;">
+      예상치 못한 에러가 발생했습니다. 다시 한번 시도해주세요 찍찍..
+      <div class="pure-u" style="width: 100%; text-align: center;">
+        <p>
+          <input
+            class="pure-button"
+            value="뒤로가기"
+            type="button"
+            onclick="back()"
+          />
+        </p>
+      </div>
+    </h3>
+  </div>
+</div>
+
+<script>
+  function back() {
+    history.back(-1);
+  }
+</script>

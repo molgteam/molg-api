@@ -1,0 +1,44 @@
+<% include ../views/common/header.ejs %>
+<div class="content-wrapper">
+  <div class="content">
+    <h2 class="content-head is-center"><%=username%> 검색 결과</h2>
+    <p class="content-minihead is-center">
+      molg-tip🐭 ☑️공식 🔒비공개 아이콘으로 구분하면 쉽다구 찍찍..🐭
+    </p>
+    <div class="pure-g tinyWrap">
+      <%if (!userItems.length) { %>
+      <script>
+        function back() {
+          history.back(-1);
+        }
+      </script>
+      <div class="pure-u" style="width: 100%; text-align: center;">
+        <p>
+          이런 .... 게시물이 없어 찍찍..🐭<br />
+          <input
+            class="pure-button"
+            value="뒤로가기"
+            type="button"
+            onclick="back()"
+          />
+        </p>
+      </div>
+      <% } else { userItems.forEach(function(userItem) { %>
+      <div class="pure-u-1-3">
+        <p class="profile-username">
+          <a href="/story/<%= userItem.username %>">
+            <% if(userItem.is_verified == true)__append("☑️") %> <%
+            if(userItem.is_private == true) __append("🔒")%> <%=
+            userItem.username %>
+          </a>
+        </p>
+        <p class="profile-fullname">
+          <%= userItem.full_name %>
+        </p>
+        <img class="pure-img profile-img" src="<%=userItem.profile_pic_url%>" />
+      </div>
+      <% }) } %>
+    </div>
+  </div>
+  <% include ../views/common/footer.ejs %>
+</div>

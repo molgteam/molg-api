@@ -1,0 +1,8 @@
+.modal-content {
+  height: 100%;
+  justify-content: center;
+}
+
+.modal-content .inner-feed-img {
+  border-radius: 0px;
+}

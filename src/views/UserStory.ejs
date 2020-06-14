@@ -1,0 +1,106 @@
+<% include ../views/common/header.ejs %>
+
+<div id="user-story" class="content-wrapper">
+  <div class="content tinyWrap">
+    <div class="profile">
+      <div class="profile-img-container">
+        <img class="profile-img" src="<%=picUrl %>" alt="picUrl" />
+      </div>
+      <div class="profile-intro">
+        <div class="username">
+          <h2 class="content-head">
+            <span
+              ><% if(isVerified == true) { __append("☑️") } if(isPrivate) {
+              __append("🔒") } %></span
+            >
+            <%=name%>
+          </h2>
+        </div>
+        <div class="last-update">
+          <button class="pure-button btn">스토리갱신</button>
+          <div class="last-date">
+            최근 업데이트:
+            <span
+              class="time"
+              data-datetime="<%=updatedAt %>"
+              data-interval="60"
+              data-id="<%=pk%>"
+              ><%=dayjs.unix(updatedAt).fromNow()%></span
+            >
+          </div>
+        </div>
+        <div class="profile-footer content-minihead">
+          <p>molg-tip🐭 비공개 계정의 피드는 나도 못봐 찍찍..🐭</p>
+        </div>
+      </div>
+    </div>
+    <div class="pure-g category">
+      <a class="pure-u-1-5" href="/story/<%=name%>"
+        ><span><i class="fa fa-archive"></i> 스토리</span></a
+      >
+      <a class="pure-u-1-5" href="/feed/<%=name%>"
+        ><span><i class="fa fa-th"></i> 게시물</span></a
+      >
+    </div>
+    <div class="pure-g story-content">
+      <%if (!stories.length) { %>
+      <script>
+        function back() {
+          history.back(-1);
+        }
+      </script>
+      <div class="pure-u" style="width: 100%; text-align: center;">
+        <p>
+          이런 .... 스토리가 없어 찍찍..🐭<br />
+          <input
+            class="pure-button backBtn"
+            value="뒤로가기"
+            type="button"
+            onclick="back()"
+          />
+        </p>
+      </div>
+      <% } stories.forEach(function(story){ %>
+      <div class="pure-u-sm-1-1 pure-u-md-1-3 is-center">
+        <p class="story-title">
+          <%= dayjs.unix(story.takenAt).format('YY/MM/DD hh:mm:ss') %>
+        </p>
+        <div class="img-container">
+          <img class="pure-img story-img" src="<%= story.imageUrl %>" onerror="this.src='/images/error.jpg'"/>
+          <div class="overlay">
+            <a class="icon story-modal-btn">
+              <% if(story.hasVideo) { %>
+              <i
+                class="fa fa-play-circle"
+                data-video-url="<%= story.videoUrl%>"
+                data-image-url="<%= story.imageUrl%>"
+              ></i>
+              <% } %>
+            </a>
+          </div>
+        </div>
+        <% if(story.hasVideo) { %>
+        <button
+          class="pure-button download video"
+          data-url="<%= story.videoUrl %>"
+          data-file="<%= story.pk %>"
+        >
+          DOWNLOAD
+        </button>
+        <% } else { %>
+        <button
+          class="pure-button download image"
+          data-url="<%= story.imageUrl %>"
+          data-file="<%= story.pk %>"
+        >
+          DOWNLOAD
+        </button>
+        <% } %>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+  <% include ../views/common/footer.ejs %>
+</div>
+<div id="story-modal" class="modal-window"></div>
+<script src="/story.js"></script>
